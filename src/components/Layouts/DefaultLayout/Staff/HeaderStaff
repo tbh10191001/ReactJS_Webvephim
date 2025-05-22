@@ -1,0 +1,102 @@
+import { faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Modal } from 'antd';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { deleteAccessToken } from '~/cookies/cookies';
+import staffSlice from '~/redux/staffSlice';
+const logoWeb = require('~/images/logoWeb.png');
+
+function HeaderStaff() {
+    let navigator = useNavigate();
+    const [isDisplay, setIsDisplay] = useState(false);
+
+    const handleLogout = () => setIsDisplay(true);
+    const handleAccept = () => {
+        setIsDisplay(false);
+        deleteAccessToken();
+        dispatch(staffSlice.actions.clear());
+        navigator('/login');
+    };
+    const handleCancel = () => {
+        setIsDisplay(false);
+    };
+
+    const dispatch = useDispatch();
+    const staff = JSON.parse(localStorage.getItem('staff'));
+
+    return (
+        <header className="fixed z-20 w-full h-24 top-0 bg-black py-8 flex justify-between">
+            <img
+                src={logoWeb}
+                className="ml-10 hover:cursor-pointer hover:opacity-70"
+                onClick={() => navigator('/staff/info')}
+                alt=""
+            />
+            <div className="mr-10 h-auto flex justify-around items-center">
+                {staff !== null ? (
+                    <>
+                        <div className="flex items-center">
+                            <p
+                                onClick={() => navigator('/staff/info')}
+                                className="text-white font-semibold hover:cursor-pointer hover:text-mainColor"
+                            >
+                                {staff && staff.user.hoten}
+                            </p>
+                            <div
+                                className="text-white flex items-center hover:text-mainColor hover:cursor-pointer"
+                                onClick={handleLogout}
+                            >
+                                <FontAwesomeIcon
+                                    icon={faArrowRightFromBracket}
+                                    className=" ml-10 mr-4 text-3xl"
+                                />
+                                <p>Đăng xuất</p>
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    <>
+                        <button
+                            className="text-white mr-10 hover:text-mainColor"
+                            onClick={() => navigator('/register')}
+                        >
+                            Đăng ký
+                        </button>
+                        <button
+                            className="text-black px-3 py-4 bg-white font-semibold rounded-full hover:text-mainColor hover:animate-pulse"
+                            onClick={() => navigator('/login')}
+                        >
+                            Đăng nhập
+                        </button>
+                    </>
+                )}
+            </div>
+
+            {isDisplay && (
+                <Modal
+                    title={'Đăng xuất tài khoản'}
+                    mask={false}
+                    visible={isDisplay}
+                    onOk={handleAccept}
+                    onCancel={handleCancel}
+                    okText="Đăng xuất"
+                    cancelText="Huỷ"
+                    okButtonProps={{
+                        style: {
+                            backgroundColor: '#b91c1c',
+                            '&:hover': {
+                                background: '#efefef',
+                            },
+                        },
+                    }}
+                >
+                    Bạn có chắc chắn đăng xuất tài khoản này
+                </Modal>
+            )}
+        </header>
+    );
+}
+
+export default HeaderStaff;

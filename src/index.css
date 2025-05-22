@@ -1,13 +1,56 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Poppins:wght@300;400;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html {
+        font-size: 62.5%;
+    }
+    body {
+        font-size: 1.6rem;
+        line-height: 1.5;
+        text-rendering: optimizeSpeed;
+        font-family: 'Montserrat', sans-serif;
+    }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer components {
+    .seatForm {
+        @apply w-10 h-10 flex place-content-center justify-center text-white items-center
+    }
+    .seatGreen {
+        @apply bg-btGreen hover:bg-white hover:text-btGreen hover:cursor-pointer 
+    }
+    .seatPink {
+        @apply bg-bgPink hover:bg-white hover:text-bgPink hover:cursor-pointer 
+    }
+    .seatDisable {
+        @apply !bg-bgthird !cursor-not-allowed hover:!bg-bgthird hover:!text-white
+    }
+    .pointedStatus {
+        @apply w-5 h-5 rounded-full mr-4
+    }
+}
+
+input {
+    background: black;
+    color: white;
+}
+
+[type="search"]::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+    background-color: '#b91c1c' !important;
+}
+
+button, [type='button'], [type='reset'], [type='submit'] {
+    -webkit-appearance: none;
+    background-color: '#b91c1c';
+    
 }
